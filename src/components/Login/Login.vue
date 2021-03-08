@@ -1,52 +1,71 @@
 <template>
-  <div :style="`background-image:url(${bg}); height: calc(100vh); background-size: cover`">
-    <validation-observer
-      ref="observer"
-      v-slot="{ invalid }"
-      class='form'
-    >
-      <form @submit.prevent="submit">
-        <validation-provider
-          v-slot="{ errors }"
-          name="Name"
-          rules="required|max:10"
-        >
-          <v-text-field
-            v-model="name"
-            :counter="10"
-            :error-messages="errors"
-            label="Name"
-            required
-          ></v-text-field>
-        </validation-provider>
+  <div class="login">
+    <div class='formContainer'>
+      <v-banner
+        elevation="10"
+        height='30'
+        class="banner"
+      >
+        菜鸡互啄系统
+      </v-banner>
+      <validation-observer
+        ref="observer"
+      >
+        <form @submit.prevent="submit">
+          <validation-provider
+            v-slot="{ errors }"
+            name="用户名"
+            rules="required|max:10"
+          >
+            <v-text-field
+              v-model="name"
+              :counter="10"
+              :error-messages="errors"
+              label="请输入用户名"
+              required
+            ></v-text-field>
+          </validation-provider>
 
-        <validation-provider
-          v-slot="{ errors }"
-          rules="required"
-          name="checkbox"
-        >
-          <v-checkbox
-            v-model="checkbox"
-            :error-messages="errors"
-            value="1"
-            label="自动登录"
-            type="checkbox"
-            required
-          ></v-checkbox>
-        </validation-provider>
+          <validation-provider
+            v-slot="{ errors }"
+            name="密码"
+            rules="required|max:10"
+          >
+            <v-text-field
+              v-model="password"
+              :counter="10"
+              :error-messages="errors"
+              label="请输入密码"
+              required
+              type='password'
+            ></v-text-field>
+          </validation-provider>
 
-        <v-btn
-          class="mr-4"
-          type="submit"
-          :disabled="invalid"
-        >
-          登录
-        </v-btn>
-        <v-btn @click="clear">
-          重置
-        </v-btn>
-      </form>
-    </validation-observer>
+          <validation-provider
+            v-slot="{ errors }"
+            name="checkbox"
+          >
+            <v-checkbox
+              v-model="checkbox"
+              :error-messages="errors"
+              value="1"
+              label="自动登录"
+              type="checkbox"
+            ></v-checkbox>
+          </validation-provider>
+
+          <v-btn
+            class="mr-4"
+            type="submit"
+          >
+            登录
+          </v-btn>
+          <v-btn @click="clear">
+            重置
+          </v-btn>
+        </form>
+      </validation-observer>
+    </div>
   </div>
 </template>
 
@@ -58,12 +77,12 @@
 
   extend('required', {
     ...required,
-    message: '{_field_} can not be empty',
+    message: '{_field_}不能为空',
   })
 
   extend('max', {
     ...max,
-    message: '{_field_} may not be greater than {length} characters',
+    message: '{_field_} 不能超过十个字符',
   })
 export default {
   name: 'HelloWorld',
@@ -76,8 +95,7 @@ export default {
   data () {
     return {
       name: '',
-      msg: 'Welcome to Your Vue.js App',
-      bg: '../../../static/images/bg.png'
+      password: '',
     }
   },
   methods: {
@@ -97,8 +115,24 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  .form form {
-    background: #fff;
+<style>
+  .login {
+    background-image:url('../../../static/images/bg.png');
+    height: calc(100vh);
+    background-size: 100% 100%;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+  .banner .v-banner__wrapper {
+    font-size: 20px;
+    border: none !important;
+  }
+  .formContainer {
+    margin-right: 40px;
+    margin-bottom: calc(50vh - 250px);
+    width: 400px;
+    padding: 10px;
   }
 </style>
